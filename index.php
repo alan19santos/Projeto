@@ -14,7 +14,7 @@ $transferencia = new TransferenciaController();
              * Cadastrando usuário
              */
             $retorno = $cadastro->cadastrar($_POST);
-            echo json_encode($retorno);
+            echo json_encode($retorno, JSON_UNESCAPED_SLASHES);
         break;
 
         /**
@@ -23,7 +23,7 @@ $transferencia = new TransferenciaController();
         case 'transacao':
             $retorno = array();
             //validar se usuário esta logado
-            $retorno = $transferencia->usuarioLogado($_POST['email']);
+            $retorno = $cadastro->usuarioLogado($_POST['email']);
         
                 if ($retorno['ok'] && $retorno['tipoUsuario'] == 1) {
                     //validar se o usuário possui saldo
@@ -45,7 +45,7 @@ $transferencia = new TransferenciaController();
          */
         case 'deposito':
 
-            $validarUsuario = $transferencia->usuarioLogado($_POST['email']);
+            $validarUsuario = $cadastro->usuarioLogado($_POST['email']);
             $retorno = array('ok'=>false, 'msg'=>'Usuário não Validado');
             if ($validarUsuario['ok']) {
 

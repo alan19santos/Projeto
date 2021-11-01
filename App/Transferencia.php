@@ -45,19 +45,7 @@ class Transferencia extends Model {
         return $retorno;
     }
 
-    /**
-     * valida se o usuário esta logado para executar transferencia
-     */
-    public function validarLogin($email) {
-       
-
-        $consulta = "select * from usuario where email like '".$email."'";
-        $sql = $this->conexao->query($consulta);
-
-        $retorno = $sql->fetchAll(PDO::FETCH_ASSOC);
-       
-        return $retorno;
-    }
+   
 
     /**
      * busca o id do usuário que ta efetuando transferencia

@@ -17,29 +17,7 @@ class TransferenciaController extends Controller {
         $this->model = new Transferencia;
     }
 
-    /**
-     * verifica se o usuáio esta logado para autenticar transferencias
-     */
-    public function usuarioLogado($email)
-    {
-        $retorno = array('msg'=>'necessário autenticar login!', 'ok'=>false);
-        $dados = $this->model->validarLogin($email);
-
-        foreach($dados as $dado) {
-            $retorno['tipoUsuario'] = $dado['tipo'];
-            if ($dado['sessaousuario']) {
-                $sessao = $dado['sessaousuario'];
-            }
-        }
-
-        if ($sessao)
-        {
-            $retorno['ok'] =  $sessao;
-            $retorno['msg'] = '';
-        }
-
-       return $retorno;
-    }
+    
 
     public function depositar($valorDeposito, $email){
 
@@ -83,9 +61,7 @@ class TransferenciaController extends Controller {
         return $retorno;
     }
 
-    public function validarAcesso() {
-
-    }
+   
 
     /**
      * realiza a transferencia dos dados

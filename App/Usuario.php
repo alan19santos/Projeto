@@ -54,10 +54,10 @@ class Usuario extends Model {
                 
                 
                 $hash_senha = password_verify($password, $senhaUsuario);
-                $token = str_replace('\'','',$token);
-                $tokens = strcmp($token, $tokenUsuario);
+                              
+                $tokens = strcmp(utf8_encode($token), utf8_encode($tokenUsuario));
                 $emails = strcmp($email, $emailUsuario);
-               
+              
                 if ($emails == 0 && $hash_senha && $tokens == 0) {
                       $this->armazenandoSessaoUsuario($email); //armazena sessão na base de dados
                     return true;
@@ -107,7 +107,7 @@ class Usuario extends Model {
         $retorno = array('msg'=>'Falha ao Inserir Dados', 'row'=> 0);
 
         $senhaUsuario = password_hash($senha, PASSWORD_DEFAULT);
-        $cpfCnpj = password_hash($cpf_cnpj, PASSWORD_DEFAULT); //Gera o token a partir do cpf/cnpj
+        $cpfCnpj = password_hash(str_replace('.','',utf8_encode($cpf_cnpj)), PASSWORD_DEFAULT); //Gera o token a partir do cpf/cnpj
        
         try {
 
@@ -128,7 +128,22 @@ class Usuario extends Model {
         
         return $retorno;
     }
+
+    /**
+     * valida se o usuário esta logado para executar transferencia
+     */
+    public function validarLogin($email) {
+       
+
+        $consulta = "select * from usuario where email like '".$email."'";
+        $sql = $this->conexao->query($consulta);
+
+        $retorno = $sql->fetchAll(PDO::FETCH_ASSOC);
+       
+        return $retorno;
+    }
    
+    
     
 }
 

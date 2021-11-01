@@ -35,6 +35,29 @@ class UsuarioController extends Controller {
         return $retornoDados;
     }
 
+    /**
+     * verifica se o usuáio esta logado para autenticar transferencias
+     */
+    public function usuarioLogado($email)
+    {
+        $retorno = array('msg'=>'necessário autenticar login!', 'ok'=>false);
+        $dados = $this->model->validarLogin($email);
+
+        foreach($dados as $dado) {
+            $retorno['tipoUsuario'] = $dado['tipo'];
+            if ($dado['sessaousuario']) {
+                $sessao = $dado['sessaousuario'];
+            }
+        }
+
+        if ($sessao)
+        {
+            $retorno['ok'] =  $sessao;
+            $retorno['msg'] = '';
+        }
+
+       return $retorno;
+    }
 
     /**
      * Cadastra o usuário executando as validações antes do cadastro
