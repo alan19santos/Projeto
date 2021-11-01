@@ -1,0 +1,14 @@
+{
+    "name": "projeto/projeto",
+    "type": "project",
+    "require": {
+        "php": "^7.3|^8.0"
+    },
+    "autoload": {
+        "classmap": [
+            "App"
+        ]
+         
+    }
+
+}
