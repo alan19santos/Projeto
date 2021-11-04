@@ -64,6 +64,7 @@ class UsuarioController extends Controller {
      */
     public function cadastrar(Array $dados) {
         
+     
         $token = '';
         if (isset($dados['email']) && empty($dados['email'])) {
             $this->msg = 'Por Favor, Digite um E-mail';
@@ -82,7 +83,6 @@ class UsuarioController extends Controller {
             $this->erro = true;
             return array('msg'=>$this->msg, 'erro'=>$this->erro);
         }
-
 
        $retorno = $this->model->inserirUsuario($dados['nome'], $dados['email'], $dados['cpf_cnpj'], $dados['senha'], $dados['tipo']);
 

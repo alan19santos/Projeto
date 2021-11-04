@@ -27,7 +27,7 @@ class Usuario extends Model {
         $emailUsuario = '';
         $senhaUsuario = '';
         $tokenUsuario = '';
-        
+      
         $consulta = "select * from usuario where 1=1 ";
         if (!empty($email)) {
             $consulta.= " and usuario.email like '".$email."'";
@@ -35,11 +35,11 @@ class Usuario extends Model {
         if (!empty($cpf_cnpj)) {
             $consulta.= " and usuario.cpf_cnpj like '".$cpf_cnpj."'";
         }
-
+        
         $sql = $this->conexao->query($consulta);
         $row = $sql->rowCount();
        
-
+        
         if ($row > 0) {
             $retorno = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,12 +54,11 @@ class Usuario extends Model {
                 
                 
                 $hash_senha = password_verify($password, $senhaUsuario);
-                              
                 $tokens = strcmp(utf8_encode($token), utf8_encode($tokenUsuario));
                 $emails = strcmp($email, $emailUsuario);
-              
+                
                 if ($emails == 0 && $hash_senha && $tokens == 0) {
-                      $this->armazenandoSessaoUsuario($email); //armazena sessão na base de dados
+                    $this->armazenandoSessaoUsuario($email); //armazena sessão na base de dados
                     return true;
                 }else{
                     return false;
@@ -75,11 +74,15 @@ class Usuario extends Model {
      * Salva a sessão do usuário no banco
      */
     private function armazenandoSessaoUsuario($email) {
+        $this->conexao->beginTransaction();
+       
         try {
             $sql = $this->conexao->prepare("update usuario set sessaoUsuario = true where email like '".$email."'");
             $sql->execute();
+            $this->conexao->commit();
         } catch (PDOException $ex) {
             echo 'Erro ' . $ex;
+            $this->conexao->rollBack();
         }
 
     }

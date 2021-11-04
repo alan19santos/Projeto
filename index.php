@@ -24,15 +24,15 @@ $transferencia = new TransferenciaController();
             $retorno = array();
             //validar se usuário esta logado
             $retorno = $cadastro->usuarioLogado($_POST['email']);
-        
-                if ($retorno['ok'] && $retorno['tipoUsuario'] == 1) {
+          
+            if ($retorno['ok'] && $retorno['tipoUsuario'] == 1) {
                     //validar se o usuário possui saldo
                     $retorno = $transferencia->validarSaldo($_POST['email'], $_POST['valor']);
 
                 if ($retorno['status'] == true) {
                     $retorno = $transferencia->transferencia($retorno['id'], $_POST['usuario_recebidor'],
                                                     $_POST['valor'], $retorno['saldor_atualizado']);
-                }
+                } 
             } else {
                 $retorno['ok'] = false;
                 $retorno['msg'] = 'Seu pérfil é Lojista ou não tem Saldo!';
@@ -61,6 +61,7 @@ $transferencia = new TransferenciaController();
         /**
          * Loguin no sistema
          */
+        
           $login = $cadastro->login($_GET['email'], $_GET['senha'], $_GET['token']);
           echo json_encode($login);
         break;
