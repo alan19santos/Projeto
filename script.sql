@@ -1,3 +1,15 @@
+--tabela de usuário
+create table usuario(
+	id serial not null,
+	nome varchar(225),
+	email varchar(50) not null,
+	tipo int,
+	senha varchar(225) not null,
+	cpf_cnpj varchar(20),
+	token varchar(225),
+	constraint pk_usuario primary key (id),
+	
+);
 
 --tabela transferencia bancaria
 create table transferencia_bancaria (

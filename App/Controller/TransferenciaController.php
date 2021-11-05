@@ -5,6 +5,9 @@ namespace App\Controller\Controller;
 use App\Controller\Controller;
 use App\Transferencia;
 
+
+// classe responsável pelas transações, deposito e validação dos valores R$ do usuário
+
 class TransferenciaController extends Controller {
 
     public $msg;
@@ -18,7 +21,7 @@ class TransferenciaController extends Controller {
     }
 
     
-
+    //responsavel por fazer o deposito caso não tenha dinheiro em caixa
     public function depositar($valorDeposito, $email){
 
         $retorno = array('ok'=>false, 'msg'=>'Erro no deposito!');
@@ -33,6 +36,7 @@ class TransferenciaController extends Controller {
         return $retorno;
     }
 
+    //valida o saldo do usuário
     public function validarSaldo($email, $valor) {
 
         $retorno = array('msg'=>'usuário sem saldo! efetue deposito!', 'status'=>false);
@@ -72,14 +76,14 @@ class TransferenciaController extends Controller {
     /**
      * Autoriza os dados
      */
-   private function autorizacaoEnvio(){
-    $url = "https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6');
-    $return = curl_exec($ch);
-    var_dump($return);
-    var_dump(curl_error($ch));
-   }
+//    private function autorizacaoEnvio(){
+//     $url = "https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6";
+//     $ch = curl_init();
+//     curl_setopt($ch, CURLOPT_URL, 'https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6');
+//     $return = curl_exec($ch);
+//     var_dump($return);
+//     var_dump(curl_error($ch));
+//    }
 
     /**
      * realiza a transferencia dos dados
@@ -91,7 +95,7 @@ class TransferenciaController extends Controller {
        $valorRecebidor = $valor;
 
        $retorno = $this->model->transferencia($usuario, $idUsuario, $valor);
-            // $this->autorizacaoEnvio(); SSL certificate problem: unable to get local issuer certificate
+    // $this->autorizacaoEnvio(); SSL certificate problem: unable to get local issuer certificate
        if ($retorno['ok']) {
            //atualiza saldo usuario enviado e usuario recebidor
            $dados = $this->model->atualizarUsuarioTransferencia($usuario, $saldo_atualizado);

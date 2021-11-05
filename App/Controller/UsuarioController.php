@@ -6,7 +6,7 @@ use App\Controller\Controller;
 use App\Usuario;
 
 /**
- * Classe responsavel por controlar as transações do usuário
+ * Classe responsavel por controlar as transações (cadastro e validações) do usuário
  */
 class UsuarioController extends Controller {
 
